@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<disp.h>
 
 ////////////////////// lm3s_disp_print ("asdas",longer_side,shoter_side,level);
@@ -7,8 +8,8 @@ int draw_tables(int i,int loc_i,int loc_r,int flag)
 int temp_i=i;
 int temp_r=loc_r;
 	lm3s_disp_print(" ",1,--temp_i,10);
-	if (loc_i <10)
-		printf("%d %d %d \n",loc_i,loc_r,i);
+	//if (loc_i <10)
+	//	printf("%d %d %d \n",loc_i,loc_r,i);
 	if (loc_i ==1 & ~(loc_r <=i+5 & loc_r >=i-5)) {lm3s_disp_print("you lose",20,20,10);return 1;}
         lm3s_disp_print("|",1,i,10);
         lm3s_disp_print(" ",120,--temp_r,10);        
@@ -28,7 +29,7 @@ void ping (int *flag,int *i,int *r, int *pattern)
 	                lm3s_disp_print("*",++(*i),--(*r),10);
 		if ( *r >= 90) *flag=0; 
 		if (*r <= 2) *flag=0; 
-		if(*i ==120) {*flag=2; *pattern=0;}
+		if(*i ==120) {*flag=2; *pattern=rand()%3;}
 		//printf("%d %d %d in flag=1\n",*pattern,*r,*i);
 	}
         else if (*flag==0){
@@ -41,7 +42,7 @@ void ping (int *flag,int *i,int *r, int *pattern)
 			lm3s_disp_print("*",++(*i),++(*r),10);
 		if (*r >= 90) *pattern =0;
 		if (*r <= 2) {*pattern=2;}
-		if(*i ==120) {*flag=2; *pattern=2;}
+		if(*i ==120) {*flag=2; *pattern=rand()%3;}
 		
 	}
 }
@@ -58,7 +59,7 @@ void pong (int *flag,int *i,int *r, int *pattern)
 			lm3s_disp_print("*",--(*i),--(*r),10);
 		if (*r >= 90) *flag=3;
 		if (*r <=3) {*flag=3;}
-		if(*i==1) {*flag=1;*pattern=1;}
+		if(*i==1) {*flag=1;*pattern=rand()%3;}
 		
 	}
         else if (*flag ==3){
@@ -71,7 +72,7 @@ void pong (int *flag,int *i,int *r, int *pattern)
 			lm3s_disp_print("*",--(*i),++(*r),10);
 		if (*r >= 90) *pattern=0;
 		if (*r <=3) {*pattern=2;}
-		if(*i==1) {*flag=1;*pattern=0;}
+		if(*i==1) {*flag=1;*pattern=rand()%3;}
 		
 	}
 }
@@ -99,7 +100,7 @@ for(i=0;i<128;i++)
 int r=0;
 int flag=1;
 int check_lose;
-int pattern=2;
+int pattern=rand()%3;
 while(1)
 {
         //lm3s_disp_clear();
@@ -115,7 +116,7 @@ while(1)
         //if(i==120) pinging=0;
 
         //draw_tables(t_1,i,r,flag);
-	if (draw_tables(r-10,i,r,flag))
+	if (draw_tables(r,i,r,flag))
 	{
 		lm3s_disp_clear();
 		lm3s_disp_print("You Lose",20,20,10);
